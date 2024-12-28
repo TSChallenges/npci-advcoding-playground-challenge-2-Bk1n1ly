@@ -20,8 +20,8 @@ class Clinic {
     // Admit a patient to the clinic
     public void admitPatient(Patient patient) {
         // Add the patient to the queue and print "Patient <name> admitted."
-
-        // TODO
+        this.patientQueue.add(patient);
+        System.out.println("Patient " + patient.getName() + " admitted.");
     }
     
 
@@ -31,7 +31,23 @@ class Clinic {
         // Give appointment to maximum 3 patients per day.
         // Once appointment is given to a patient, add that patient to `admittedPatients` set. Also, print "Scheduled <name> on <appointmentDay>"
 
-        // TODO
+        int patientCount = 0;
+        System.out.println("Scheduling Appointments for Day "+ this.dayCount  );
+        for (Patient patient : this.patientQueue ) {
+            if(!this.admittedPatients.contains(patient))
+            {
+                 if (patientCount < 3){
+                    patient.setAppointmentDay("Day "+ this.dayCount);
+                    this.admittedPatients.add(patient);
+                    System.out.println("Scheduled " + patient.getName() + " on " + patient.getAppointmentDay());
+                    patientCount++;
+                }else{
+                    patientCount = 0;
+                    this.dayCount++;
+                    break;
+                }
+            }
+        }
     }
 
 
@@ -39,8 +55,13 @@ class Clinic {
     public void providedTreatment(Patient patient, String treatment) {
         // Provide treatment to a patient only if the patient is admitted. Print "Treatment provided to <name>: <treatment>"
         // Else print "Patient not found in the admitted list."
-        
-        // TODO
+
+        if(this.admittedPatients.contains(patient)){
+            patient.setTreatment(treatment);
+            System.out.println("Treatment provided to "+ patient.getName() + " : " + patient.getTreatment() );
+        } else {
+            System.out.println("Patient not found in the admitted list.");
+        }
     }
 
 
@@ -48,8 +69,12 @@ class Clinic {
     public void getPatientDetails(Patient patient) {
         // Print patient details only if the patient is admitted.
         // Else print "Patient not found in the admitted list."
-        
-        // TODO
+
+        if(this.admittedPatients.contains(patient)){
+            System.out.println("Patient Details: " + patient.toString());
+        }else{
+            System.out.println("Patient not found in the admitted list.");
+        }
     }
 
 
@@ -57,8 +82,12 @@ class Clinic {
     public void getAppointmentDetails(Patient patient) {
         // Print appointment details of a patient only if the patient is admitted. "Appointment Details: <name> is scheduled on <appointmentDay>"
         // Else print "Patient not found in the admitted list."
-        
-        // TODO
+
+        if(this.admittedPatients.contains(patient)){
+            System.out.println("Appointment Details: " + patient.getName() +" is scheduled on " + patient.getAppointmentDay());
+        }else{
+            System.out.println("Patient not found in the admitted list.");
+        }
     }
 
 
@@ -66,6 +95,7 @@ class Clinic {
     public void dischargePatient(Patient patient) {
         // Remove the patient from admitted patients list. Print "Patient <name> discharged."
 
-        // TODO
+        this.admittedPatients.remove(patient);
+        System.out.println("Patient " +patient.getName() +" discharged.");
     }
 }
